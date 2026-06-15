@@ -1,11 +1,11 @@
-# Import functions from task_utils module
-# (Assuming your files are structured in the same folder or package directory)
-from task_utils import add_task, mark_task_as_complete, view_pending_tasks, calculate_progress, tasks
-from validation import validate_task_title, validate_task_description, validate_due_date
+# Import functions from task_manager.task_utils package
+from task_manager.task_utils import add_task, mark_task_as_complete, view_pending_tasks, calculate_progress, tasks
+from task_manager.validation import validate_task_title, validate_task_description, validate_due_date
 
+# Define the main function
 def main():
     while True:
-        print("\n=== Task Management System ===")
+        print("Task Management System")
         print("1. Add Task")
         print("2. Mark Task as Complete")
         print("3. View Pending Tasks")
@@ -15,7 +15,6 @@ def main():
 
         if choice == "1":
             print("\n--- Create New Task ---")
-            
             # 1. Validate Title Loop
             while True:
                 title_input = input("Enter task title: ")
@@ -37,12 +36,9 @@ def main():
                 if is_valid:
                     break
             
-            # Push clean data to our management list
             add_task(validated_title, validated_desc, validated_date)
 
-        # OPTION 2: MARK TASK AS COMPLETE
         elif choice == "2":
-            # Direct check if len() satisfies rubric constraints safely before indexing
             if len(tasks) == 0:
                 print("No tasks working currently. Add a task first.")
             else:
@@ -51,30 +47,24 @@ def main():
                     status = "✅ Done" if task["completed"] else "❌ Pending"
                     print(f"{idx}. {task['title']} [{status}]")
                 
-                # Index Input Validation Loop
                 while True:
                     idx_input = input("\nEnter the task number to complete: ").strip()
                     if idx_input.isdigit():
                         task_num = int(idx_input)
                         if 1 <= task_num <= len(tasks):
-                            # Convert to 0-based index for Python lists
                             mark_task_as_complete(task_num - 1)
                             break
                     print(f"❌ Error: Please enter a number between 1 and {len(tasks)}.")
 
-        # OPTION 3: VIEW PENDING TASKS
         elif choice == "3":
             view_pending_tasks()
 
-        # OPTION 4: VIEW PROGRESS
         elif choice == "4":
             calculate_progress()
 
-        # OPTION 5: EXIT
         elif choice == "5":
             print("Exiting the program...")
             break
-            
         else:
             print("Invalid choice. Please try again.")
         
