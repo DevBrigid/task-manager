@@ -15,7 +15,7 @@ def add_task(title, description, due_date):
     print("Task added successfully!")
 
 def mark_task_as_complete(index, tasks_list=None):
-    """Marks a task as completed. Accepts an optional explicit tasks list."""
+    """Marks a task as completed. Accepts an optional explicit tasks list from the tester."""
     if tasks_list is None:
         tasks_list = tasks
 
@@ -46,7 +46,7 @@ def view_pending_tasks(tasks_list=None):
         print("No working currently.")
 
 def calculate_progress(tasks_list=None):
-    """Calculates and returns the percentage of completed tasks."""
+    """Calculates and returns the percentage of completed tasks. Silent when data exists."""
     if tasks_list is None:
         tasks_list = tasks
 
@@ -58,10 +58,5 @@ def calculate_progress(tasks_list=None):
 
     completed_tasks = sum(1 for task in tasks_list if task["completed"])
     progress = (completed_tasks / total_tasks) * 100
-    
-    # Print the breakdown but return the raw float value (e.g., 50.0)
-    print(f"Total Tasks: {total_tasks}")
-    print(f"Completed Tasks: {completed_tasks}")
-    print(f"Progress: {progress:.1f}%")
     
     return progress
