@@ -1,4 +1,3 @@
-# Import functions from task_manager.task_utils package
 from task_manager.task_utils import add_task, mark_task_as_complete, view_pending_tasks, calculate_progress, tasks
 from task_manager.validation import validate_task_title, validate_task_description, validate_due_date
 
@@ -13,7 +12,6 @@ def main():
         choice = input("Enter your choice (1-5): ").strip()
 
         if choice == "1":
-            # Loops keep prompting until auto-grader or user provides correct strings
             while True:
                 title_input = input("Enter task title: ")
                 is_valid, validated_title = validate_task_title(title_input)
@@ -42,17 +40,18 @@ def main():
                 if idx_input.isdigit():
                     task_num = int(idx_input)
                     if 1 <= task_num <= len(tasks):
-                        mark_task_as_complete(task_num - 1)
+                        # Pass both index and global tasks list explicitly
+                        mark_task_as_complete(task_num - 1, tasks)
                     else:
                         print("Invalid task number.")
                 else:
                     print("Invalid input.")
 
         elif choice == "3":
-            view_pending_tasks()
+            view_pending_tasks(tasks)
 
         elif choice == "4":
-            calculate_progress()
+            calculate_progress(tasks)
 
         elif choice == "5":
             print("Exiting the program...")

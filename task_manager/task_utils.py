@@ -14,22 +14,28 @@ def add_task(title, description, due_date):
     tasks.append(new_task)
     print("Task added successfully!")
 
-def mark_task_as_complete(index):
-    """Marks a task as completed based on its index position."""
-    if 0 <= index < len(tasks):
-        tasks[index]["completed"] = True
+def mark_task_as_complete(index, tasks_list=None):
+    """Marks a task as completed. Accepts an optional explicit tasks list."""
+    if tasks_list is None:
+        tasks_list = tasks
+
+    if 0 <= index < len(tasks_list):
+        tasks_list[index]["completed"] = True
         print("Task marked as complete!")
     else:
         print("Invalid task number.")
 
-def view_pending_tasks():
+def view_pending_tasks(tasks_list=None):
     """Displays only tasks where completed is False."""
-    if len(tasks) == 0:
+    if tasks_list is None:
+        tasks_list = tasks
+
+    if len(tasks_list) == 0:
         print("No tasks currently available.")
         return
 
     pending_found = False
-    for idx, task in enumerate(tasks, 1):
+    for idx, task in enumerate(tasks_list, 1):
         if not task["completed"]:
             print(f"{idx}. {task['title']} (Due: {task['due_date']})")
             if task["description"]:
@@ -39,17 +45,21 @@ def view_pending_tasks():
     if not pending_found:
         print("No working currently.")
 
-def calculate_progress():
+def calculate_progress(tasks_list=None):
     """Calculates and returns the percentage of completed tasks."""
-    total_tasks = len(tasks)
+    if tasks_list is None:
+        tasks_list = tasks
+
+    total_tasks = len(tasks_list)
     
     if total_tasks == 0:
         print("No working currently.")
         return 0.0
 
-    completed_tasks = sum(1 for task in tasks if task["completed"])
+    completed_tasks = sum(1 for task in tasks_list if task["completed"])
     progress = (completed_tasks / total_tasks) * 100
     
+    # Print the breakdown but return the raw float value (e.g., 50.0)
     print(f"Total Tasks: {total_tasks}")
     print(f"Completed Tasks: {completed_tasks}")
     print(f"Progress: {progress:.1f}%")
