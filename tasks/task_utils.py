@@ -1,16 +1,10 @@
 from datetime import datetime
 
-# Import validation functions (Uncomment if these are in a separate file)
-# from validation import validate_task_title, validate_task_description, validate_due_date
-
-# Define global tasks list
+# Central data storage tracking tasks as a list of dictionaries
 tasks = []
 
-# 1. Implement add_task function
 def add_task(title, description, due_date):
-    """
-    Creates a new task dictionary and appends it to the global tasks list.
-    """
+    """Creates a task dictionary and appends it to the tasks list."""
     new_task = {
         "title": title,
         "description": description,
@@ -18,34 +12,23 @@ def add_task(title, description, due_date):
         "completed": False
     }
     tasks.append(new_task)
-    # Direct Rubric Match
     print("Task added successfully!")
 
-# 2. Implement mark_task_as_complete function
 def mark_task_as_complete(index):
-    """
-    Marks a specific task as complete based on its 0-indexed position.
-    """
-    # Safety check to ensure index falls within our current tasks length
+    """Marks a task as completed based on its index position."""
     if 0 <= index < len(tasks):
         tasks[index]["completed"] = True
-        # Direct Rubric Match
         print("Task marked as complete!")
     else:
-        print("❌ Error: Invalid task number.")
+        print("Invalid task number.")
 
-# 3. Implement view_pending_tasks function
 def view_pending_tasks():
-    """
-    Loops through and displays only the tasks where completed is False.
-    """
-    # Rubric Check: Match- No working currently / Pending task no error
+    """Displays only tasks where completed is False."""
     if len(tasks) == 0:
         print("No tasks currently available.")
         return
 
     pending_found = False
-    print("\n--- PENDING TASKS ---")
     for idx, task in enumerate(tasks, 1):
         if not task["completed"]:
             print(f"{idx}. {task['title']} (Due: {task['due_date']})")
@@ -54,27 +37,21 @@ def view_pending_tasks():
             pending_found = True
             
     if not pending_found:
-        print("No working currently. All tasks are completed!")
+        print("No working currently.")
 
-# 4. Implement calculate_progress function
 def calculate_progress():
-    """
-    Calculates the percentage of completed tasks. 
-    Handles empty arrays without breaking (No error).
-    """
+    """Calculates and returns the percentage of completed tasks."""
     total_tasks = len(tasks)
     
-    # Rubric Check: Check Validation- Check for if len() 
     if total_tasks == 0:
-        print("No working currently. Add tasks to see progress metrics.")
+        print("No working currently.")
         return 0.0
 
     completed_tasks = sum(1 for task in tasks if task["completed"])
     progress = (completed_tasks / total_tasks) * 100
     
-    print(f"\n--- PROGRESS DASHBOARD ---")
     print(f"Total Tasks: {total_tasks}")
-    print(f"Completed:  {completed_tasks}")
-    print(f"Progress:   {progress:.1f}%")
+    print(f"Completed Tasks: {completed_tasks}")
+    print(f"Progress: {progress:.1f}%")
     
     return progress

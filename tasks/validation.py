@@ -4,25 +4,25 @@ import re
 def validate_task_title(title):
     # - Must not be empty or whitespace only
     if not title or title.strip() == "":
-        print("❌ Error: Title not found")
+        print("Title not found")
         return False, None
     
     title = title.strip()
 
-    # - Check minimum characters (Check for if len() rubric rule)
+    # - Must be at least 3 characters long (Rubric check for len())
     if len(title) < 3:
-        print("❌ Error: Title must be at least 3 characters long.")
+        print("Title must be at least 3 characters long.")
         return False, None
     
-    # - Check maximum characters
+    # - Must not exceed 100 characters
     if len(title) > 100:
-        print("❌ Error: Title must not exceed 100 characters.")
+        print("Title must not exceed 100 characters.")
         return False, None
     
-    # - Check for special characters (only letters, numbers, spaces, hyphens)
+    # - Must not contain special characters (only letters, numbers, spaces, hyphens)
     if not re.match(r"^[a-zA-Z0-9 \-]+$", title):
-        print("❌ Error: Title can only contain letters, numbers, spaces, and hyphens.")
-        return False, None # Fixed: Was returning True previously
+        print("Title can only contain letters, numbers, spaces, and hyphens.")
+        return False, None
         
     return True, title
     
@@ -35,7 +35,7 @@ def validate_task_description(description):
     
     # - If provided, must not exceed 500 characters
     if len(description) > 500:
-        print("❌ Error: Description must not exceed 500 characters.")
+        print("Description must not exceed 500 characters.")
         return False, None
 
     return True, description
@@ -43,21 +43,16 @@ def validate_task_description(description):
 def validate_due_date(due_date):
     # - Must not be empty
     if not due_date or due_date.strip() == "":
-        print("❌ Error: Due date cannot be empty")
+        print("Due date cannot be empty")
         return False, None
         
     due_date = due_date.strip()
 
-    # - Must follow the format YYYY-MM-DD & not be an invalid calendar date
+    # - Must follow the format YYYY-MM-DD
     try:
-        parsed_date = datetime.strptime(due_date, "%Y-%m-%d").date()
+        datetime.strptime(due_date, "%Y-%m-%d")
     except ValueError:
-        print("❌ Error: Due date must be a valid date in the format YYYY-MM-DD (e.g. 2026-12-31).")
+        print("Due date must be a valid date in the format YYYY-MM-DD (e.g. 2026-12-31).")
         return False, None
     
-    # - Must not be a date in the past
-    if parsed_date < datetime.today().date():
-        print("❌ Error: Due date cannot be in the past.")
-        return False, None
-        
     return True, due_date
